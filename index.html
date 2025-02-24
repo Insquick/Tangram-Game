@@ -44,7 +44,7 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       text-align: center;
       max-width: 800px;
-      width: 100%;
+      width: 90%;
       position: relative;
     }
 
@@ -70,6 +70,7 @@
       border-radius: 5px;
       border: none;
       margin-bottom: 1rem;
+      width: 100%;
     }
 
     #start-button {
@@ -81,6 +82,7 @@
       border-radius: 10px;
       cursor: pointer;
       transition: background 0.3s ease;
+      width: 100%;
     }
 
     #start-button:hover {
@@ -140,6 +142,7 @@
       display: flex;
       gap: 1rem;
       margin-top: 1rem;
+      justify-content: center;
     }
 
     .score-input button {
@@ -188,6 +191,7 @@
       border-radius: 10px;
       cursor: pointer;
       transition: background 0.3s ease;
+      width: 100%;
     }
 
     #end-game-button:hover {
@@ -232,10 +236,33 @@
       border-radius: 10px;
       cursor: pointer;
       transition: background 0.3s ease;
+      width: 100%;
     }
 
     #play-again-button:hover {
       background: #2980b9;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      #timer {
+        font-size: 1.5rem;
+      }
+
+      #round-counter {
+        font-size: 1.2rem;
+      }
+
+      .silhouette {
+        max-width: 200px;
+      }
     }
   </style>
 </head>
@@ -312,6 +339,7 @@
     const winnerDisplay = document.getElementById('winner-display');
     const scoreTableBody = document.querySelector('#score-table tbody');
     const gameTitle = document.getElementById('game-title');
+    const silhouetteElement = document.querySelector('.silhouette');
 
     function startGame() {
       timerDuration = parseInt(document.getElementById('timer-minutes').value, 10);
@@ -333,6 +361,7 @@
     }
 
     function startTimer() {
+      clearInterval(timerInterval);
       timerInterval = setInterval(updateTimer, 1000);
     }
 
@@ -349,15 +378,15 @@
     }
 
     function updateTeamDisplay() {
+      const currentColor = teamColors[currentTeamIndex].toLowerCase();
       currentTeamDisplay.textContent = teamColors[currentTeamIndex];
-      currentTeamDisplay.style.color = teamColors[currentTeamIndex].toLowerCase();
-      currentRoundDisplay.style.color = teamColors[currentTeamIndex].toLowerCase();
-      gameTitle.style.color = teamColors[currentTeamIndex].toLowerCase();
+      currentTeamDisplay.style.color = currentColor;
+      currentRoundDisplay.style.color = currentColor;
+      gameTitle.style.color = currentColor;
     }
 
-    const silhouetteElement = document.querySelector('.silhouette');
     silhouetteElement.addEventListener('click', () => {
-      if (!silhouetteElement.querySelector('.score-input')) {
+      if (!document.querySelector('.score-input')) {
         const colorImage = puzzles[currentPuzzleIndex].color;
         silhouetteElement.innerHTML = `<img src="${colorImage}" alt="Tangram Color">`;
         clearInterval(timerInterval);
